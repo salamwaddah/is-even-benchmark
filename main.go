@@ -1,10 +1,83 @@
 package main
 
 import (
+	"fmt"
 	"math"
+	"os"
 	"regexp"
 	"strconv"
+	"time"
 )
+
+func main() {
+	functions := map[string]func(int) bool{
+		"remainder": remainder,
+		"bitwise":   bitwise,
+		"round":     round,
+		"cos":       cos,
+		"sin":       sin,
+		"binStr":    binStr,
+		"regex":     regex,
+		"loop":      loop,
+		"recursive": recursive,
+		"str":       str,
+	}
+
+	data := map[string][]time.Duration{}
+
+	for name, fn := range functions {
+		data[name] = benchmark(name, fn)
+	}
+
+	filename := "results_1_000_000_f.txt"
+	_ = saveToTxt(filename, data)
+}
+
+func benchmark(name string, fn func(int) bool) []time.Duration {
+	runs := 100
+	results := make([]time.Duration, runs)
+
+	for r := 0; r < runs; r++ {
+		start := time.Now()
+		for i := 0; i < 1_000_000; i++ {
+			_ = fn(i)
+		}
+		results[r] = time.Since(start)
+	}
+
+	avgTime := time.Duration(0)
+	for _, t := range results {
+		avgTime += t
+	}
+	avgTime /= time.Duration(runs)
+	fmt.Printf("%s took an average of %s\n", name, avgTime)
+
+	return results
+}
+
+func saveToTxt(filename string, data map[string][]time.Duration) error {
+	file, err := os.Create(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	_, err = file.WriteString("Function\tRun\tDuration(ns)\n")
+	if err != nil {
+		return err
+	}
+
+	for name, durations := range data {
+		for i, duration := range durations {
+			_, err := file.WriteString(fmt.Sprintf("%s\t%d\t%d\n", name, i+1, duration.Nanoseconds()))
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
 
 // O(1)
 
