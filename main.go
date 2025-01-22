@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+// O(1)
+
 func remainder(n int) bool {
 	return n%2 == 0
 }
@@ -26,6 +28,8 @@ func sin(n int) bool {
 	return math.Abs(math.Sin(float64(n)*math.Pi/2)) < 0.5
 }
 
+// O(log(n))
+
 func binStr(n int) bool {
 	binaryStr := strconv.FormatInt(int64(n), 2)
 	return binaryStr[len(binaryStr)-1] == '0'
@@ -36,6 +40,15 @@ func regex(n int) bool {
 
 	return match
 }
+
+func str(n int) bool {
+	numStr := strconv.Itoa(n)
+	lastChar := numStr[len(numStr)-1]
+
+	return lastChar == '0' || lastChar == '2' || lastChar == '4' || lastChar == '6' || lastChar == '8'
+}
+
+// O(n)
 
 func loop(n int) bool {
 	even := true
@@ -57,11 +70,4 @@ func recursive(n int) bool {
 	}
 
 	return recursive(n - 2)
-}
-
-func str(n int) bool {
-	numStr := strconv.Itoa(n)
-	lastChar := numStr[len(numStr)-1]
-
-	return lastChar == '0' || lastChar == '2' || lastChar == '4' || lastChar == '6' || lastChar == '8'
 }

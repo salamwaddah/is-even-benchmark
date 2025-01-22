@@ -90,6 +90,16 @@ func Test_regex(t *testing.T) {
 	}
 }
 
+func Test_str(t *testing.T) {
+	for name, tt := range tests {
+		t.Run(name, func(t *testing.T) {
+			if got := str(tt.n); got != tt.want {
+				t.Errorf("str() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func Test_loop(t *testing.T) {
 	for name, tt := range tests {
 		t.Run(name, func(t *testing.T) {
@@ -105,16 +115,6 @@ func Test_recursive(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			if got := recursive(tt.n); got != tt.want {
 				t.Errorf("recursive() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func Test_str(t *testing.T) {
-	for name, tt := range tests {
-		t.Run(name, func(t *testing.T) {
-			if got := str(tt.n); got != tt.want {
-				t.Errorf("str() = %v, want %v", got, tt.want)
 			}
 		})
 	}
