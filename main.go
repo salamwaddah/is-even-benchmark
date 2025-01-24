@@ -29,7 +29,7 @@ func main() {
 		data[name] = benchmark(name, fn)
 	}
 
-	filename := "results_1_000_000_f.txt"
+	filename := "results_100_000.txt"
 	_ = saveToTxt(filename, data)
 }
 
@@ -39,7 +39,7 @@ func benchmark(name string, fn func(int) bool) []time.Duration {
 
 	for r := 0; r < runs; r++ {
 		start := time.Now()
-		for i := 0; i < 1_000_000; i++ {
+		for i := 0; i < 100_000; i++ {
 			_ = fn(i)
 		}
 		results[r] = time.Since(start)
