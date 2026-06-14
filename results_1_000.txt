@@ -299,7 +299,7 @@ regex	97	731459
 regex	98	581500
 regex	99	699417
 regex	100	584416
-sin	1	40000
+sin	1	8624
 sin	2	8625
 sin	3	8584
 sin	4	8542
